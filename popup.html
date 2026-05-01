@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WATCHER</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  :root{
+    --bg:#000;--s1:#080808;--s2:#0f0f0f;--s3:#141414;
+    --b1:rgba(255,255,255,0.05);--b2:rgba(255,255,255,0.1);
+    --t1:#e8e8e8;--t2:#666;--t3:#2a2a2a;
+    --cyan:#3b82f6;--red:#ef4444;--green:#22c55e;--amber:#f59e0b;
+    --font:'JetBrains Mono',monospace;
+  }
+
+  body{
+    width:360px;
+    background:var(--bg);
+    color:var(--t1);
+    font-family:var(--font);
+    font-size:12px;
+    overflow:hidden;
+  }
+
+  /* HEADER */
+  .header{
+    background:var(--s1);
+    border-bottom:1px solid var(--b1);
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .logo-icon{
+    width:28px;height:28px;
+    background:linear-gradient(135deg,#1d4ed8,#7c3aed);
+    border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+  }
+
+  .logo-text{
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:#fff;
+  }
+
+  .logo-sub{
+    font-size:8px;
+    color:var(--t2);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+  }
+
+  .status-dot{
+    display:flex;align-items:center;gap:6px;
+    font-size:9px;letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--t2);
+  }
+
+  .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 5px var(--green);
+    animation:pulse 1.8s infinite;
+  }
+
+  .dot.off{background:var(--red);box-shadow:0 0 5px var(--red);animation:none}
+
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* CURRENT URL SECTION */
+  .current-url{
+    padding:14px 16px;
+    border-bottom:1px solid var(--b1);
+    background:var(--s1);
+  }
+
+  .section-label{
+    font-size:8px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--t2);
+    margin-bottom:8px;
+  }
+
+  .url-box{
+    background:var(--s2);
+    border:1px solid var(--b1);
+    border-radius:6px;
+    padding:10px 12px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .url-favicon{
+    width:16px;height:16px;
+    border-radius:3px;
+    flex-shrink:0;
+    object-fit:cover;
+  }
+
+  .url-text{
+    font-size:10px;
+    color:var(--cyan);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    flex:1;
+    letter-spacing:.3px;
+  }
+
+  .url-type{
+    font-size:8px;
+    padding:2px 6px;
+    border-radius:3px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    flex-shrink:0;
+    font-weight:600;
+  }
+
+  .type-job{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+  .type-price{background:rgba(245,158,11,.15);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+  .type-video{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+  .type-news{background:rgba(59,130,246,.15);color:var(--cyan);border:1px solid rgba(59,130,246,.25)}
+  .type-general{background:rgba(255,255,255,.05);color:var(--t2);border:1px solid var(--b1)}
+
+  /* TABS */
+  .tabs{
+    display:flex;
+    border-bottom:1px solid var(--b1);
+    background:var(--s1);
+  }
+
+  .tab{
+    flex:1;
+    padding:10px;
+    text-align:center;
+    font-size:9px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--t2);
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+    transition:all .15s;
+  }
+
+  .tab.active{
+    color:var(--cyan);
+    border-bottom-color:var(--cyan);
+    background:rgba(59,130,246,.05);
+  }
+
+  .tab:hover:not(.active){color:var(--t1);background:var(--s2)}
+
+  /* TAB CONTENT */
+  .tab-content{display:none;padding:16px}
+  .tab-content.active{display:block}
+
+  /* FORM */
+  .form-group{margin-bottom:12px}
+
+  .form-label{
+    font-size:8px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--t2);
+    margin-bottom:6px;
+    display:block;
+  }
+
+  .inp{
+    width:100%;
+    background:var(--s2);
+    border:1px solid var(--b1);
+    border-radius:5px;
+    padding:9px 11px;
+    color:var(--t1);
+    font-size:11px;
+    font-family:var(--font);
+    transition:border-color .15s;
+    outline:none;
+  }
+
+  .inp:focus{border-color:var(--cyan);background:var(--s3)}
+  .inp::placeholder{color:var(--t3)}
+
+  .inp-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+  /* QUICK TRACK BUTTON */
+  .track-btn{
+    width:100%;
+    padding:12px;
+    background:linear-gradient(135deg,#1d4ed8,#1e3a8a);
+    border:1px solid rgba(59,130,246,.4);
+    border-radius:6px;
+    color:#fff;
+    font-size:11px;
+    font-family:var(--font);
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:all .15s;
+    margin-top:4px;
+  }
+
+  .track-btn:hover{
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    transform:translateY(-1px);
+    box-shadow:0 4px 12px rgba(59,130,246,.3);
+  }
+
+  .track-btn:active{transform:translateY(0)}
+
+  .track-btn.loading{
+    background:var(--s3);
+    border-color:var(--b1);
+    color:var(--t2);
+    cursor:not-allowed;
+  }
+
+  /* SUCCESS STATE */
+  .success-banner{
+    background:rgba(34,197,94,.1);
+    border:1px solid rgba(34,197,94,.25);
+    border-radius:6px;
+    padding:12px;
+    display:none;
+    align-items:center;
+    gap:8px;
+    margin-top:10px;
+    font-size:10px;
+    color:var(--green);
+  }
+
+  .success-banner.show{display:flex}
+
+  /* TRACKED LIST */
+  .tracked-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    max-height:280px;
+    overflow-y:auto;
+  }
+
+  .tracked-list::-webkit-scrollbar{width:3px}
+  .tracked-list::-webkit-scrollbar-track{background:transparent}
+  .tracked-list::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+
+  .track-item{
+    background:var(--s2);
+    border:1px solid var(--b1);
+    border-radius:6px;
+    padding:10px 12px;
+    transition:border-color .15s;
+  }
+
+  .track-item:hover{border-color:var(--b2)}
+
+  .ti-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:6px;
+  }
+
+  .ti-label{
+    font-size:11px;
+    font-weight:600;
+    color:var(--t1);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:180px;
+  }
+
+  .ti-url{
+    font-size:9px;
+    color:var(--cyan);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-bottom:6px;
+    letter-spacing:.3px;
+  }
+
+  .ti-meta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+
+  .ti-info{
+    font-size:8px;
+    color:var(--t2);
+    letter-spacing:.5px;
+  }
+
+  .ti-actions{display:flex;gap:4px}
+
+  .ti-btn{
+    padding:3px 8px;
+    border-radius:3px;
+    font-size:8px;
+    font-family:var(--font);
+    letter-spacing:1px;
+    text-transform:uppercase;
+    cursor:pointer;
+    border:1px solid var(--b1);
+    background:var(--s3);
+    color:var(--t2);
+    transition:all .15s;
+  }
+
+  .ti-btn:hover{color:var(--t1);border-color:var(--b2)}
+  .ti-btn.scan{color:var(--cyan);border-color:rgba(59,130,246,.3)}
+  .ti-btn.del{color:var(--red);border-color:rgba(239,68,68,.3)}
+
+  /* STATS ROW */
+  .stats-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:6px;
+    margin-bottom:12px;
+  }
+
+  .stat{
+    background:var(--s2);
+    border:1px solid var(--b1);
+    border-radius:5px;
+    padding:8px;
+    text-align:center;
+  }
+
+  .stat-n{font-size:20px;font-weight:700;letter-spacing:-1px;line-height:1}
+  .stat-l{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t2);margin-top:3px}
+
+  /* EMPTY STATE */
+  .empty{
+    text-align:center;
+    padding:24px;
+    color:var(--t2);
+    font-size:10px;
+    letter-spacing:.5px;
+  }
+
+  .empty-icon{font-size:28px;margin-bottom:8px}
+
+  /* SERVER STATUS */
+  .server-status{
+    padding:8px 16px;
+    border-top:1px solid var(--b1);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--s1);
+    font-size:8px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--t2);
+  }
+
+  /* TOAST */
+  .toast{
+    position:fixed;
+    bottom:10px;left:10px;right:10px;
+    background:rgba(8,8,8,.97);
+    border:1px solid var(--b2);
+    border-radius:6px;
+    padding:10px 14px;
+    font-size:10px;
+    z-index:999;
+    display:none;
+    letter-spacing:.5px;
+  }
+
+  .toast.show{display:block;animation:slideUp .2s ease}
+  @keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+  /* INTERVAL SELECT */
+  select.inp{cursor:pointer}
+
+  /* ALERT TYPES */
+  .alert-types{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:6px;
+    margin-bottom:12px;
+  }
+
+  .alert-type{
+    padding:8px;
+    border:1px solid var(--b1);
+    border-radius:5px;
+    cursor:pointer;
+    text-align:center;
+    transition:all .15s;
+    background:var(--s2);
+  }
+
+  .alert-type:hover,.alert-type.selected{
+    border-color:var(--cyan);
+    background:rgba(59,130,246,.08);
+    color:var(--cyan);
+  }
+
+  .alert-type-icon{font-size:16px;margin-bottom:4px}
+  .alert-type-label{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:inherit}
+
+  .divider{height:1px;background:var(--b1);margin:12px 0}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">🕵️</div>
+    <div>
+      <div class="logo-text">Watcher</div>
+      <div class="logo-sub">Neural Tracker</div>
+    </div>
+  </div>
+  <div class="status-dot">
+    <div class="dot" id="serverDot"></div>
+    <span id="serverTxt">connecting</span>
+  </div>
+</div>
+
+<!-- CURRENT PAGE URL -->
+<div class="current-url">
+  <div class="section-label">// current page</div>
+  <div class="url-box">
+    <img class="url-favicon" id="favicon" src="" alt="">
+    <div class="url-text" id="currentUrl">Loading...</div>
+    <span class="url-type type-general" id="urlType">—</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" data-tab="track">Track</div>
+  <div class="tab" data-tab="list">My Targets</div>
+  <div class="tab" data-tab="search">Search</div>
+</div>
+
+<!-- TAB: TRACK -->
+<div class="tab-content active" id="tab-track">
+
+  <div class="form-group">
+    <label class="form-label">// alert type</label>
+    <div class="alert-types">
+      <div class="alert-type selected" data-type="change">
+        <div class="alert-type-icon">🔄</div>
+        <div class="alert-type-label">Any Change</div>
+      </div>
+      <div class="alert-type" data-type="job">
+        <div class="alert-type-icon">💼</div>
+        <div class="alert-type-label">New Job</div>
+      </div>
+      <div class="alert-type" data-type="price">
+        <div class="alert-type-icon">💰</div>
+        <div class="alert-type-label">Price Drop</div>
+      </div>
+      <div class="alert-type" data-type="video">
+        <div class="alert-type-icon">🎥</div>
+        <div class="alert-type-label">New Video</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">// label</label>
+    <input class="inp" id="labelInp" placeholder="e.g. TCS Jobs, iPhone Price...">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">// alert email</label>
+    <input class="inp" id="emailInp" type="email" placeholder="agent@watch.net">
+  </div>
+
+  <div class="inp-row" style="margin-bottom:14px">
+    <div>
+      <label class="form-label">// scan every</label>
+      <select class="inp" id="intervalInp">
+        <option value="1">1 hour</option>
+        <option value="6">6 hours</option>
+        <option value="12">12 hours</option>
+        <option value="24" selected>24 hours</option>
+      </select>
+    </div>
+    <div id="targetPriceGroup" style="display:none">
+      <label class="form-label">// target price ₹</label>
+      <input class="inp" id="targetPriceInp" type="number" placeholder="50000">
+    </div>
+  </div>
+
+  <button class="track-btn" id="trackBtn">[ initiate surveillance ]</button>
+
+  <div class="success-banner" id="successBanner">
+    <span>✓</span>
+    <span id="successMsg">Target locked. Watcher active.</span>
+  </div>
+</div>
+
+<!-- TAB: LIST -->
+<div class="tab-content" id="tab-list">
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-n" id="sTotal">0</div>
+      <div class="stat-l">Total</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n" id="sActive" style="color:var(--green)">0</div>
+      <div class="stat-l">Active</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n" id="sChanges" style="color:var(--red)">0</div>
+      <div class="stat-l">Changes</div>
+    </div>
+  </div>
+  <div class="tracked-list" id="trackList">
+    <div class="empty">
+      <div class="empty-icon">🔍</div>
+      loading targets...
+    </div>
+  </div>
+</div>
+
+<!-- TAB: SEARCH -->
+<div class="tab-content" id="tab-search">
+
+  <div class="form-group">
+    <label class="form-label">// search jobs</label>
+    <div style="display:flex;gap:6px">
+      <input class="inp" id="jobQuery" placeholder="Java Developer" style="flex:2">
+      <input class="inp" id="jobLocation" placeholder="Gurugram" style="flex:1">
+    </div>
+  </div>
+  <button class="track-btn" id="jobSearchBtn" style="margin-bottom:10px">[ search jobs ]</button>
+
+  <div class="divider"></div>
+
+  <div class="form-group">
+    <label class="form-label">// search price</label>
+    <input class="inp" id="priceQuery" placeholder="iPhone 15 128GB">
+  </div>
+  <button class="track-btn" id="priceSearchBtn" style="background:linear-gradient(135deg,#92400e,#78350f);border-color:rgba(245,158,11,.4)">[ check prices ]</button>
+
+  <div id="searchResults" style="margin-top:12px;max-height:180px;overflow-y:auto"></div>
+</div>
+
+<!-- SERVER STATUS BAR -->
+<div class="server-status">
+  <span id="serverStatus">// watcher engine: checking</span>
+  <span id="serverUrl">localhost:8080</span>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="popup.js"></script>
+</body>
+</html>
