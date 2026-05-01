@@ -1,45 +1,70 @@
-Watcher - Chrome Extension
-Watcher is a powerful browser utility designed to keep a constant eye on specified URLs across the internet. As part of the Watcher Ecosystem, this extension acts as the primary "scout," monitoring user-provided links and ensuring data is seamlessly synced with your backend services.
+# Watcher-chrome-extention
 
-"Watcher watches over the internet, so you don't have to."
+![GitHub stars](https://img.shields.io/github/stars/sunnybharti072006/Watcher-chrome-extention?style=for-the-badge&logo=github) ![GitHub forks](https://img.shields.io/github/forks/sunnybharti072006/Watcher-chrome-extention?style=for-the-badge&logo=github) ![GitHub issues](https://img.shields.io/github/issues/sunnybharti072006/Watcher-chrome-extention?style=for-the-badge&logo=github)
 
-🚀 Features
-Targeted URL Tracking: Monitors specific URLs provided by the user with high precision.
+## 📑 Table of Contents
 
-Active Surveillance: Keeps track of activity within the browser, ensuring no changes go unnoticed.
+- [Description](#description)
+- [Quick Start](#quick-start)
+- [Screenshots](#screenshots)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
 
-Backend Integration: Fully compatible with the Watcher REST API (Spring Boot/FastAPI) for centralized data logging.
+## 📝 Description
 
-Premium Interface: Features a "Luxury Dark" UI (Charcoal, Cream, and Gray) to match the Watcher brand aesthetic.
+Watcher is a versatile Chrome extension meticulously designed to monitor and alert users of real-time changes across any website. Ideal for tracking price drops, stock availability, or content updates, Watcher automates the process of information gathering, ensuring you stay informed without the hassle of constant manual checking. With its user-friendly interface and robust tracking capabilities, it serves as a powerful personal assistant for your browsing experience, delivering critical updates the moment they happen.
 
-Lightweight & Fast: Optimized using Manifest V3 for minimal impact on browser performance.
+## ⚡ Quick Start
 
-🛠️ Tech Stack
-Logic: JavaScript (Vanilla)
+```bash
 
-Styling: CSS3 (Luxury UI Theme)
-
-Architecture: Chrome Extension Manifest V3
-
-Communication: RESTful API Integration
-
-📦 Installation
-Clone this repository:
-
-Bash
+# Clone the repository
 git clone https://github.com/sunnybharti072006/Watcher-chrome-extention.git
-Open Chrome and navigate to chrome://extensions/.
 
-Enable Developer Mode (toggle in the top right corner).
+# Install dependencies and run
 
-Click Load unpacked and select the folder where you cloned this repository.
+# (See Development Setup below)
+```
 
-📖 How it Works
-Provide URL: Open the extension popup and enter the URL you want to monitor.
+## 📸 Screenshots
 
-Set Watcher: The extension begins tracking the specified web targets.
+> **Tip:** You can auto-generate a beautiful project mockup image using the **Screenshot** button above!
 
-Data Sync: Any relevant updates or triggered events are sent directly to your configured backend server.
+<p align="center">
+  <img src="https://via.placeholder.com/800x400?text=Main+Application+View" alt="Main Application View" width="80%"/>
+</p>
 
-🛡️ Privacy
-Watcher only monitors URLs explicitly provided by the user. It is designed for personal productivity and automated monitoring, ensuring that data stays within your controlled ecosystem.
+<p align="center">
+  <img src="https://via.placeholder.com/800x400?text=Feature+Showcase" alt="Feature Showcase" width="80%"/>
+</p>
+
+## 📁 Project Structure
+
+```
+.
+├── background.js
+├── icons
+│   ├── icon128.png
+│   ├── icon16.png
+│   └── icon48.png
+├── manifest.json
+├── popup.html
+└── popup.js
+```
+
+## 👥 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. **Fork** the repository
+2. **Clone** your fork: `git clone https://github.com/sunnybharti072006/Watcher-chrome-extention.git`
+3. **Create** a new branch: `git checkout -b feature/your-feature`
+4. **Commit** your changes: `git commit -am 'Add some feature'`
+5. **Push** to your branch: `git push origin feature/your-feature`
+6. **Open** a pull request
+
+Please ensure your code follows the project's style guidelines and includes tests where applicable.
+
+---
+*This README was generated with ❤️ by [ReadmeBuddy](https://readmebuddy.com)*
+
